@@ -1,0 +1,20 @@
+package ${package.ServiceImpl};
+
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@AllArgsConstructor
+public class ${table.serviceImplName} implements ${table.serviceName} {
+    private final ${table.mapperName} mapper;
+}

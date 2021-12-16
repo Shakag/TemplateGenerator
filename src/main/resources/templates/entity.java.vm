@@ -1,0 +1,59 @@
+package ${package.Entity};
+
+import java.io.Serializable;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@ApiModel(value = "${entity}对象", description = "$!{table.comment}")
+#if(${superEntityClass})
+public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+#elseif(${activeRecord})
+public class ${entity} extends Model<${entity}> {
+#elseif(${entitySerialVersionUID})
+public class ${entity} implements Serializable {
+#else
+public class ${entity} {
+#end
+#if(${entitySerialVersionUID})
+
+    private static final long serialVersionUID = 1L;
+#end
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+##----- 有备注时输出备注 ------
+#if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+    @ApiModelProperty("${field.comment}")
+#end
+  ##-----  ------
+  #if("$!field.propertyName" == "id" || "$!field.propertyName" == "ID")
+  private String id;
+  #elseif("$!field.propertyName" == "deleted")
+  @JsonIgnore
+    private ${field.propertyType} ${field.propertyName};
+  #else
+  private ${field.propertyType} ${field.propertyName};
+  #end
+#end
+## ----------  END 字段循环遍历  ----------
+
+}
