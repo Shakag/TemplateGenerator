@@ -5,21 +5,24 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 
 public class TemplateGenerator {
     public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/mybatis?serverTimezone=UTC", "root", "3333")
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/authman?serverTimezone=UTC", "root", "3333")
                 .globalConfig(builder -> {
                     builder.author("Shakag") // 设置作者
                             //.fileOverride() // 覆盖已生成文件
+                            .disableOpenDir() // 生成后不自动打开文件目录
                             .dateType(DateType.ONLY_DATE)  //设置日期类型
-                            .outputDir("C:\\Code\\TemplateGenerator\\src\\main\\java"); // 指定输出目录
+                            // 指定输出目录
+                            .outputDir(System.getProperty("user.dir") + "/src/main/java");
+//                            .outputDir("C:\\Code\\research\\TemplateGenerator\\src\\main\\java");
                 })
                 .packageConfig(builder -> {
                     builder.parent("com.shakag"); // 设置父包名
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("user") // 设置需要生成的表名
+//                    builder.addInclude("sys_user") // 设置需要生成的表名
 
                             //实体配置
-                            .entityBuilder()
+                            builder.entityBuilder()
 
                             //controller 配置
                             .controllerBuilder()

@@ -16,5 +16,5 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ${table.serviceImplName} implements ${table.serviceName} {
-    private final ${table.mapperName} mapper;
+    private final ${table.mapperName} ${table.entityPath}Mapper;
 }

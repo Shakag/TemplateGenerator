@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 public class ${table.controllerName} {
-    private final ${table.serviceName} service;
+    private final ${table.serviceName} ${table.entityPath}Service;
 }
