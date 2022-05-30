@@ -1,11 +1,26 @@
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
+import com.baomidou.mybatisplus.generator.config.converts.OracleTypeConvert;
+import com.baomidou.mybatisplus.generator.config.querys.OracleQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 
 
 public class TemplateGenerator {
     public static void main(String[] args) {
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/authman?serverTimezone=UTC", "root", "3333")
+        // 1.数据库配置
+        DataSourceConfig.Builder dataSourceConfigBuilder = new DataSourceConfig
+                // 驱动连接的URL、数据库连接用户名、数据库连接密码
+                .Builder("jdbc:oracle:thin:@10.0.1.10:1522:orcl", "ogg", "ogg")
+                // 关键字处理 ,这里选取了mysql5.7文档中的关键字和保留字（含移除） 说明：官方文档中没有关于sqlserver，oracle数据库的配置
+                //.keyWordsHandler(new MySqlKeyWordsHandler())
+                // 数据库信息查询类,默认由 dbType 类型决定选择对应数据库内置实现：mysql:MySqlQuery(),sqlserver :SqlServerQuery(),Oracle:OracleQuery()
+                .dbQuery(new OracleQuery())
+                // 类型转换,数据库=》JAVA类型  mysql: MySqlTypeConvert() sqlserver:SqlServerTypeConvert() oracle:OracleTypeConvert()
+                .typeConvert(new OracleTypeConvert());
+
+        FastAutoGenerator.create(dataSourceConfigBuilder)
                 .globalConfig(builder -> {
                     builder.author("Shakag") // 设置作者
                             //.fileOverride() // 覆盖已生成文件
@@ -19,10 +34,10 @@ public class TemplateGenerator {
                     builder.parent("com.shakag"); // 设置父包名
                 })
                 .strategyConfig(builder -> {
-//                    builder.addInclude("sys_user") // 设置需要生成的表名
+                    builder.addInclude("T_YJ_DWYJ_QXJL") // 设置需要生成的表名
 
                             //实体配置
-                            builder.entityBuilder()
+                            .entityBuilder()
 
                             //controller 配置
                             .controllerBuilder()
@@ -43,7 +58,7 @@ public class TemplateGenerator {
                             .service("/templates/service.java")
                             .serviceImpl("/templates/serviceImpl.java")
                             .mapper("/templates/mapper.java")
-                            .mapperXml("/templates/mapper.xml")
+//                            .mapperXml("/templates/mapper.xml")
                             .controller("/templates/controller.java")
                             .build();
                 })
